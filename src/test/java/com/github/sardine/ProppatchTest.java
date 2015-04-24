@@ -43,7 +43,7 @@ public class ProppatchTest
 	public void testAddPropertyDefaultNamespace() throws Exception
 	{
 		Sardine sardine = SardineFactory.begin();
-		String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
+		String url = "http://sardine-apache.herokuapp.com/dav/anon/sardine/" + UUID.randomUUID().toString();
 		sardine.put(url, new byte[]{});
 		try
 		{
@@ -73,7 +73,7 @@ public class ProppatchTest
 	public void testAddPropertyCustomNamespace() throws Exception
 	{
 		Sardine sardine = SardineFactory.begin();
-		String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
+		String url = "http://sardine-apache.herokuapp.com/dav/anon/sardine/" + UUID.randomUUID().toString();
 		sardine.put(url, new byte[]{});
 		try
 		{
@@ -107,7 +107,7 @@ public class ProppatchTest
 	public void testRemovePropertyCustomNamespace() throws Exception
 	{
 		Sardine sardine = SardineFactory.begin();
-		String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
+		String url = "http://sardine-apache.herokuapp.com/dav/anon/sardine/" + UUID.randomUUID().toString();
 		sardine.put(url, new byte[]{});
 		try
 		{

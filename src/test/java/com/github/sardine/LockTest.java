@@ -17,7 +17,6 @@
 package com.github.sardine;
 
 import com.github.sardine.impl.SardineException;
-import org.junit.Ignore;
 import org.junit.Test;
 import java.util.UUID;
 import static org.junit.Assert.assertEquals;
@@ -33,7 +32,7 @@ public class LockTest
 	{
 		Sardine sardine = SardineFactory.begin();
 		// mod_dav supports Range headers for PUT
-		String url = "http://test.cyberduck.ch/dav/anon/sardine/" + UUID.randomUUID().toString();
+		String url = "http://sardine-apache.herokuapp.com/dav/anon/sardine/" + UUID.randomUUID().toString();
 		sardine.put(url, new byte[]{});
 		try
 		{
@@ -77,14 +76,27 @@ public class LockTest
 		Sardine sardine = SardineFactory.begin();
 
 		String existingFile = "0be720f6-2013-46f2-a369-a7e2df047ef8";
-		String existingFileUrl = "http://test.cyberduck.ch/dav/anon/sardine/" + existingFile;
+		String existingFileUrl = "http://sardine-apache.herokuapp.com/dav/anon/sardine/" + existingFile;
+		String lockToken = null;
 
-		String lockToken = sardine.lock(existingFileUrl);
-		String result = sardine.refreshLock(existingFileUrl, lockToken, existingFile);
+		try {
+			// Step 1: create a file
+			if (sardine.exists(existingFileUrl))
+			{
+				sardine.delete(existingFileUrl);
+			}
+			sardine.put(existingFileUrl, "Hello".getBytes("UTF-8"), "text/plain");
 
-		assertTrue(lockToken.startsWith("opaquelocktoken:"));
-		assertTrue(lockToken.equals(result));
+			// Step 2: lock the file
+			lockToken = sardine.lock(existingFileUrl);
+			String result = sardine.refreshLock(existingFileUrl, lockToken, existingFile);
 
-		sardine.unlock(existingFileUrl, lockToken);
+			assertTrue(lockToken.startsWith("opaquelocktoken:"));
+			assertTrue(lockToken.equals(result));
+		} finally {
+			if (lockToken != null) {
+				sardine.unlock(existingFileUrl, lockToken);
+			}
+		}
 	}
 }
