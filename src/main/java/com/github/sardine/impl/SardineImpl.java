@@ -680,8 +680,7 @@ public class SardineImpl implements Sardine
 		}
 		else
 		{
-                    DavResource resource = new DavResource(responses.get(0));
-                    if (resource.getStatusCode() == 200) return new DavQuota(resource);
+                    if (responses.get(0).getPropstat().get(0).getStatus().contains("200") || responses.get(0).getPropstat().get(0).getStatus().contains("405")) return new DavQuota(responses.get(0));
 		}
                 return null;
 	}

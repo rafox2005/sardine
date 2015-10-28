@@ -359,7 +359,8 @@ public class Prop {
      *
      */
     public QuotaAvailableBytes getQuotaAvailableBytes() {
-        return quotaAvailableBytes;
+        if (this.quotaAvailableBytes != null) return quotaAvailableBytes;
+        else return null;
     }
 
     /**
@@ -383,7 +384,8 @@ public class Prop {
      *
      */
     public QuotaUsedBytes getQuotaUsedBytes() {
-        return quotaUsedBytes;
+        if (quotaUsedBytes != null) return quotaUsedBytes;
+        else return null;
     }
 
     /**

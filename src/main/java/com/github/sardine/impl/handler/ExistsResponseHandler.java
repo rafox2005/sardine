@@ -42,6 +42,10 @@ public class ExistsResponseHandler extends ValidatingResponseHandler<Boolean>
 		{
 			return false;
 		}
+                if (statusCode == HttpStatus.SC_METHOD_NOT_ALLOWED)
+		{
+			return true;
+		}
 		throw new SardineException("Unexpected response", statusCode, statusLine.getReasonPhrase());
 	}
 }

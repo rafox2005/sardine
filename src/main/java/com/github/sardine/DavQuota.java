@@ -15,7 +15,7 @@ public class DavQuota {
 	 * allocation that can be allocated to this resource before further
 	 * allocations will be refused.
 	 */
-	private final long quotaAvailableBytes;
+	private long quotaAvailableBytes;
 
 	/**
 	 * The DAV:quota-used-bytes value is the value in octets representing
@@ -24,12 +24,24 @@ public class DavQuota {
 	 * the criterion that allocating space to any resource in the set will
 	 * count against the DAV:quota-available-bytes.
 	 */
-	private final long quotaUsedBytes;
+	private long quotaUsedBytes;
 
 	public DavQuota(Response response) {
 		Prop prop = response.getPropstat().get(0).getProp();
-		this.quotaAvailableBytes = Long.valueOf(prop.getQuotaAvailableBytes().getContent().get(0));
-		this.quotaUsedBytes = Long.valueOf(prop.getQuotaUsedBytes().getContent().get(0));
+                
+		if (prop.getQuotaAvailableBytes() != null)
+                {
+                    this.quotaAvailableBytes = Long.valueOf(prop.getQuotaAvailableBytes().getContent().get(0));
+                }
+                else this.quotaAvailableBytes = 0;
+                
+                    
+		if (prop.getQuotaUsedBytes() != null)
+                {
+                    this.quotaUsedBytes = Long.valueOf(prop.getQuotaUsedBytes().getContent().get(0));
+                }
+                else this.quotaUsedBytes = 0;
+                    
 	}
 
 	public long getQuotaAvailableBytes() {
